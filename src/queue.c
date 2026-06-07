@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include "../include/queue.h"
 
@@ -92,5 +93,5 @@ void queue_destroy(Queue* queue){
     free(queue);
 }
 
-#endif
+
 
