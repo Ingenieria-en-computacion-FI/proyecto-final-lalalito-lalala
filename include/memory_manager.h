@@ -7,7 +7,7 @@ typedef struct MemoryBlock {
 
     int size;
 
-    int free;
+    int free; 
 
     int pid; 
 
