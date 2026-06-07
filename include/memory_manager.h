@@ -9,7 +9,7 @@ typedef struct MemoryBlock {
 
     int free;
 
-    int pid;
+    int pid; 
 
     struct MemoryBlock* next;
 
