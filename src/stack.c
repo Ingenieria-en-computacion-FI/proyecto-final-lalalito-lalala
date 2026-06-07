@@ -61,7 +61,7 @@ int stack_is_empty(Stack* stack) {
     return 0;
 }
 
-void stack_destroy(Stack* stack) {
+void stack_destroy(Stack* stack) { 
     if(stack==NULL){
         return;
     }

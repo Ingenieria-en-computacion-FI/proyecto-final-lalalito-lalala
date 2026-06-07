@@ -1,18 +1,15 @@
+
 #ifndef MEMORY_MANAGER_H
 #define MEMORY_MANAGER_H
 
 typedef struct MemoryBlock {
 
     int start;
-
     int size;
-
-    int free; 
-
-    int pid; 
+    int free;
+    int pid;
 
     struct MemoryBlock* next;
-
     struct MemoryBlock* prev;
 
 } MemoryBlock;
@@ -20,7 +17,6 @@ typedef struct MemoryBlock {
 typedef struct MemoryManager {
 
     MemoryBlock* head;
-
     int total_memory;
 
 } MemoryManager;
