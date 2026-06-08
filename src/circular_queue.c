@@ -1,6 +1,7 @@
+//circular_queue.c
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/circular_queue.h"
+#include "circular_queue.h"
 
 struct CircularQueue{
     int* data;

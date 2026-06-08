@@ -1,5 +1,5 @@
 #include <assert.h>
-#include "memory_manager.h"
+#include "../include/memory_manager.h"
 
 void test_first_fit() {
     MemoryManager* mm = mm_create(1024);

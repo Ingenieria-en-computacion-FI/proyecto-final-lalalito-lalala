@@ -1,5 +1,5 @@
 #include <assert.h>
-#include "circular_queue.h"
+#include "../include/circular_queue.h"
 
 void test_round_robin_behavior() {
     CircularQueue* q = cq_create(3);

@@ -1,13 +1,14 @@
+//queue.c
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/queue.h"
+#include "queue.h"
 
-typedef struct Queue Queue{
+typedef struct QueueNode {
     int value;
     struct QueueNode* next;
 } QueueNode;
 
-struct Queue{
+struct Queue {
     QueueNode* front;
     QueueNode* rear;
 };
@@ -83,15 +84,18 @@ int queue_is_empty(Queue* queue){
 }
 
 void queue_destroy(Queue* queue){
-    if(queue==NULL){
+    if(queue == NULL){
         return;
     }
 
     while(!queue_is_empty(queue)){
-        dequeue(empty);
+        dequeue(queue);
     }
+
     free(queue);
 }
+
+
 
 
 

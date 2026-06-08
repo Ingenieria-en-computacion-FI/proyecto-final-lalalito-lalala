@@ -2,7 +2,7 @@
 #include "doubly_linked_list.h"
 
 typedef struct DoublyLinkedListNode {
-    int value;
+    MemoryBlock* value;
     struct DoublyLinkedListNode* next;
     struct DoublyLinkedListNode* prev;
 } DoublyLinkedListNode;
@@ -25,7 +25,7 @@ DoublyLinkedList* doubly_linked_list_create() {
     return list;
 }
 
-void doubly_linked_list_insert_end(DoublyLinkedList* list, int value) {
+void doubly_linked_list_insert_end(DoublyLinkedList* list, MemoryBlock* block) {
     if (list == NULL) {
         return;
     }
@@ -36,7 +36,7 @@ void doubly_linked_list_insert_end(DoublyLinkedList* list, int value) {
         return;
     }
 
-    new_node->value = value;
+    new_node->value = block;
     new_node->next = NULL;
     new_node->prev = list->tail;
 
@@ -50,7 +50,7 @@ void doubly_linked_list_insert_end(DoublyLinkedList* list, int value) {
     list->tail = new_node;
 }
 
-void doubly_linked_list_insert_front(DoublyLinkedList* list, int value) {
+void doubly_linked_list_insert_front(DoublyLinkedList* list, MemoryBlock* block) {
     if (list == NULL) {
         return;
     }
@@ -61,7 +61,7 @@ void doubly_linked_list_insert_front(DoublyLinkedList* list, int value) {
         return;
     }
 
-    new_node->value = value;
+    new_node->value = block;
     new_node->prev = NULL;
     new_node->next = list->head;
 
@@ -75,13 +75,13 @@ void doubly_linked_list_insert_front(DoublyLinkedList* list, int value) {
     list->head = new_node;
 }
 
-int doubly_linked_list_remove_front(DoublyLinkedList* list) {
+MemoryBlock* doubly_linked_list_remove_front(DoublyLinkedList* list) {
     if (list == NULL || list->head == NULL) {
-        return -1;
+        return NULL;
     }
 
     DoublyLinkedListNode* temp = list->head;
-    int value = temp->value;
+    MemoryBlock* value = temp->value;
 
     list->head = list->head->next;
 
@@ -96,13 +96,13 @@ int doubly_linked_list_remove_front(DoublyLinkedList* list) {
     return value;
 }
 
-int doubly_linked_list_remove_back(DoublyLinkedList* list) {
+MemoryBlock* doubly_linked_list_remove_back(DoublyLinkedList* list) {
     if (list == NULL || list->tail == NULL) {
-        return -1;
+        return NULL;
     }
 
     DoublyLinkedListNode* temp = list->tail;
-    int value = temp->value;
+    MemoryBlock* value = temp->value;
 
     list->tail = list->tail->prev;
 
@@ -117,22 +117,22 @@ int doubly_linked_list_remove_back(DoublyLinkedList* list) {
     return value;
 }
 
-int doubly_linked_list_search(DoublyLinkedList* list, int value) {
+MemoryBlock* doubly_linked_list_search(DoublyLinkedList* list, int value){
     if (list == NULL) {
-        return 0;
+        return NULL;
     }
 
     DoublyLinkedListNode* current = list->head;
 
     while (current != NULL) {
-        if (current->value == value) {
-            return 1;
+        if (current->value->start== value) {
+            return current->value;
         }
 
         current = current->next;
     }
 
-    return 0;
+    return NULL;
 }
 
 int doubly_linked_list_is_empty(DoublyLinkedList* list) {

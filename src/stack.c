@@ -1,6 +1,7 @@
+//stack.c
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/stack.h"
+#include "stack.h"
 
 struct Node {
     int value;
