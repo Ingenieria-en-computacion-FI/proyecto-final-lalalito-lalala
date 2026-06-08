@@ -1,36 +1,29 @@
 #include "memory_manager.h"
 #include <stdlib.h>
 
-void mm_coalesce(
-    MemoryManager* mm
-) {
-    if(mm == NULL){
-        return;
-    }
 
-    MemoryBlock* current = mm->head;
+void coalesce(MemoryBlock* head) {
+    if (!head) return;
 
-    while(current != NULL && current->next != NULL){
+    MemoryBlock* current = head;
 
-        if(current->free &&
-           current->next->free){
+    while (current && current->next) {
 
-            MemoryBlock* temp =
-                current->next;
+        if (current->free && current->next->free) {
+
+            MemoryBlock* temp = current->next;
 
             current->size += temp->size;
-
             current->next = temp->next;
 
-            if(temp->next != NULL){
+            if (temp->next)
                 temp->next->prev = current;
-            }
 
             free(temp);
 
-        } else {
-
-            current = current->next;
+            continue; //  clave
         }
+
+        current = current->next;
     }
 }
