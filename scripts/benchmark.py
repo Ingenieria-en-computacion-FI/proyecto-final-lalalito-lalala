@@ -1,24 +1,28 @@
 import subprocess
 import time
-import pandas as pd
-from pathlib import Path
+import csv
 
-BIN = Path("../bin/main.exe")
-OUT = Path("../data/benchmarks/benchmark.csv")
-
+sizes = [100, 500, 1000, 2500, 4000, 5000]
 algorithms = ["fifo", "sjf", "rr"]
-sizes = [100, 500, 1000, 5000]
 
 results = []
 
-for alg in algorithms:
-    for size in sizes:
+for size in sizes:
+
+    subprocess.run(
+        ["python", "scripts/generate_process.py", str(size)],
+        check=True
+    )
+
+    file = f"data/inputs/processes_{size}.csv"
+
+    for alg in algorithms:
 
         start = time.perf_counter()
 
         subprocess.run(
-            [str(BIN), alg, str(size)],
-            check=True
+            ["./bin/main.exe", alg, file],
+            stdout=subprocess.DEVNULL
         )
 
         end = time.perf_counter()
@@ -29,8 +33,13 @@ for alg in algorithms:
             "time": end - start
         })
 
-OUT.parent.mkdir(parents=True, exist_ok=True)
+with open("data/benchmarks/benchmark.csv", "w", newline="") as f:
+    writer = csv.DictWriter(
+        f,
+        fieldnames=["algorithm", "size", "time"]
+    )
 
-pd.DataFrame(results).to_csv(OUT, index=False)
+    writer.writeheader()
 
-print("✔ Benchmark guardado en data/benchmarks/")
+    for row in results:
+        writer.writerow(row)

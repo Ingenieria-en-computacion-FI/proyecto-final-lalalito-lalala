@@ -1,18 +1,36 @@
-import pandas as pd
+import csv
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("../data/benchmarks/benchmark.csv")
+data = {
+    "fifo": ([], []),
+    "sjf": ([], []),
+    "rr": ([], [])
+}
 
-for alg in df["algorithm"].unique():
+with open("data/benchmarks/benchmark.csv") as f:
 
-    subset = df[df["algorithm"] == alg]
+    reader = csv.DictReader(f)
 
-    plt.plot(subset["size"], subset["time"], label=alg)
+    for row in reader:
 
-plt.xlabel("Procesos")
+        alg = row["algorithm"]
+
+        data[alg][0].append(int(row["size"]))
+        data[alg][1].append(float(row["time"]))
+
+for alg in data:
+
+    plt.plot(
+        data[alg][0],
+        data[alg][1],
+        marker="o",
+        label=alg.upper()
+    )
+
+plt.xlabel("Número de procesos")
 plt.ylabel("Tiempo (s)")
-plt.title("Comparación de algoritmos de scheduling")
+plt.title("Comparación FIFO vs SJF vs RR")
 plt.legend()
 
-plt.savefig("../data/outputs/graph.png")
+plt.savefig("data/benchmarks/graph.png")
 plt.show()

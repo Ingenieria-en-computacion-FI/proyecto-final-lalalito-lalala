@@ -1,20 +1,15 @@
 import random
+import sys
 from pathlib import Path
 
-print("SCRIPT CORRIENDO")
+n = int(sys.argv[1])
 
-BASE = Path.cwd()
-OUT = BASE / "data" / "inputs" / "processes.csv"
+OUT = Path(f"data/inputs/processes_{n}.csv")
 
-print(" Guardando en:", OUT)
+with open(OUT, "w") as f:
+    for i in range(n):
+        f.write(
+            f"{i},{random.randint(1,20)},{random.randint(1,5)},{random.randint(10,500)}\n"
+        )
 
-OUT.parent.mkdir(parents=True, exist_ok=True)
-
-data = "\n".join(
-    f"{i},{random.randint(1,20)},{random.randint(1,5)},{random.randint(10,500)}"
-    for i in range(100)
-)
-
-OUT.write_text(data)
-
-print("✔ CSV generado")
+print(f"✔ Generados {n} procesos")

@@ -1,3 +1,4 @@
+printf("VERSION DEBUG NUEVA\n");
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,7 +35,11 @@ int main(int argc, char** argv) {
 
     int quantum = 2;
 
+    printf("DEBUG 1\n");
+
     Scheduler* scheduler = create_scheduler(algorithm, quantum);
+
+    printf("DEBUG 2\n");
 
     if (scheduler == NULL) {
         printf("Algoritmo inválido\n");
@@ -44,17 +49,25 @@ int main(int argc, char** argv) {
     // =========================
     // CARGAR PROCESOS DESDE CSV
     // =========================
+
+    printf("DEBUG 3\n");
     int count;
     Process* processes = load_processes(file, &count);
+
+    printf("DEBUG 4\n");
 
     if (processes == NULL) {
         printf("Error leyendo archivo\n");
         return 1;
     }
 
+    printf("DEBUG 5 count=%d\n", count);
+
     for (int i = 0; i < count; i++) {
-        scheduler_add_process(scheduler, processes[i]);
-    }
+    processes[i].state = READY;
+    processes[i].remaining_time = processes[i].burst_time;
+    scheduler_add_process(scheduler, processes[i]);
+}
 
     free(processes);
 

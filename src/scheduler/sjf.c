@@ -27,15 +27,21 @@ Scheduler* scheduler_create_sjf(){
 
 } 
 
-Process* sjf_next(Scheduler* scheduler){
+Process* sjf_next(Scheduler* scheduler) {
+
+    if (scheduler == NULL || scheduler->count == 0) {
+        return NULL;
+    }
+
     int selected_index = -1;
-    int shortest_time = 0;
+    int shortest_time = 999999;  
 
     for (int i = 0; i < scheduler->count; i++) {
+
         Process* process = &scheduler->processes[i];
 
         if (process->state == FINISHED) {
-            continue; //bro esto salío que es una variable int, dá un IDE, y debería ser un *Process, para que ademas del IDE, dé mas datos, si me suena lógico, lo voy a cambiar xd
+            continue;
         }
 
         if (selected_index == -1 || process->burst_time < shortest_time) {
