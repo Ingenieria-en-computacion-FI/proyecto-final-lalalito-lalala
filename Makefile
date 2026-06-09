@@ -1,23 +1,33 @@
-CC=gcc
-CFLAGS=-Wall -Wextra -std=c11 -Iinclude
+CC = gcc
+CFLAGS = -Wall -Wextra -std=c11 -Iinclude
 
-SRC=$(filter-out src/main.c, $(wildcard src/*.c)) \
-    $(wildcard src/*/*.c)
+SRC = src/main.c \
+src/stack.c \
+src/queue.c \
+src/circular_queue.c \
+src/linked_list.c \
+src/doubly_linked_list.c \
+src/scheduler/fifo.c \
+src/scheduler/round_robin.c \
+src/scheduler/sjf.c \
+src/memory/first_fit.c \
+src/memory/best_fit.c \
+src/memory/worst_fit.c \
+src/memory/coalescence.c \
+src/memory/compactation.c \
+src/algorithms/backtracking.c \
+src/algorithms/brute_force.c \
+src/algorithms/divide_conquer.c \
+src/algorithms/dp_bottomup.c
 
-BIN=bin
-TARGET=$(BIN)/main.exe
+OUT = bin/programa.exe
 
 all:
 	if not exist bin mkdir bin
-	$(CC) $(CFLAGS) src/main.c $(SRC) -o $(TARGET)
+	$(CC) $(CFLAGS) $(SRC) -o $(OUT)
 
 run:
-	$(TARGET) fifo 100
-
-test:
-	if not exist bin mkdir bin
-	$(CC) $(CFLAGS) tests/*.c $(SRC) -o $(BIN)/tests.exe
-	$(BIN)/tests.exe
+	$(OUT)
 
 clean:
-	del /Q bin\*
+	del bin\*.exe

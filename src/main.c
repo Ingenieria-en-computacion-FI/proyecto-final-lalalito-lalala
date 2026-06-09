@@ -3,6 +3,7 @@
 #include <string.h>
 #include "scheduler.h"
 #include "process.h"
+#include "process_loader.h"
 
 Scheduler* create_scheduler(const char* type, int quantum) {
 
@@ -24,14 +25,14 @@ Scheduler* create_scheduler(const char* type, int quantum) {
 int main(int argc, char** argv) {
 
     if (argc < 3) {
-        printf("Uso: ./main <fifo|sjf|rr> <size>\n");
+        printf("Uso: ./main <fifo|sjf|rr> <file.csv>\n");
         return 1;
     }
 
     const char* algorithm = argv[1];
-    int size = atoi(argv[2]);
+    const char* file = argv[2];
 
-    int quantum = 2; // default RR quantum
+    int quantum = 2;
 
     Scheduler* scheduler = create_scheduler(algorithm, quantum);
 
@@ -41,21 +42,21 @@ int main(int argc, char** argv) {
     }
 
     // =========================
-    // GENERAR PROCESOS
+    // CARGAR PROCESOS DESDE CSV
     // =========================
-    for (int i = 0; i < size; i++) {
+    int count;
+    Process* processes = load_processes(file, &count);
 
-        Process p = {
-            i,
-            rand() % 20 + 1,
-            rand() % 20 + 1,
-            rand() % 5,
-            rand() % 500,
-            READY
-        };
-
-        scheduler_add_process(scheduler, p);
+    if (processes == NULL) {
+        printf("Error leyendo archivo\n");
+        return 1;
     }
+
+    for (int i = 0; i < count; i++) {
+        scheduler_add_process(scheduler, processes[i]);
+    }
+
+    free(processes);
 
     // =========================
     // EJECUCIÓN

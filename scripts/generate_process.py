@@ -1,22 +1,20 @@
 import random
-import json
 from pathlib import Path
 
-OUT = Path("../data/inputs/processes.json")
+print("SCRIPT CORRIENDO")
 
-processes = []
+BASE = Path.cwd()
+OUT = BASE / "data" / "inputs" / "processes.csv"
 
-for i in range(100):
-
-    processes.append({
-        "pid": i,
-        "burst": random.randint(1, 20),
-        "memory": random.randint(10, 500)
-    })
+print(" Guardando en:", OUT)
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
 
-with open(OUT, "w") as f:
-    json.dump(processes, f, indent=4)
+data = "\n".join(
+    f"{i},{random.randint(1,20)},{random.randint(1,5)},{random.randint(10,500)}"
+    for i in range(100)
+)
 
-print("✔ Procesos generados")
+OUT.write_text(data)
+
+print("✔ CSV generado")
