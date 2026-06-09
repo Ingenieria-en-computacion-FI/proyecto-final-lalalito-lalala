@@ -1,27 +1,36 @@
 import subprocess
 import time
 import pandas as pd
+from pathlib import Path
+
+BIN = Path("../bin/main.exe")
+OUT = Path("../data/benchmarks/benchmark.csv")
+
+algorithms = ["fifo", "sjf", "rr"]
+sizes = [100, 500, 1000, 5000]
 
 results = []
 
-sizes = [100, 500, 1000, 5000]
+for alg in algorithms:
+    for size in sizes:
 
-for size in sizes:
-    start = time.time()
+        start = time.perf_counter()
 
-    subprocess.run([
-        "./bin/main",
-        str(size)
-    ])
+        subprocess.run(
+            [str(BIN), alg, str(size)],
+            check=True
+        )
 
-    end = time.time()
+        end = time.perf_counter()
 
-    results.append({
-        "size": size,
-        "time": end - start
-    })
+        results.append({
+            "algorithm": alg,
+            "size": size,
+            "time": end - start
+        })
 
-pd.DataFrame(results).to_csv(
-    "reports/csv/benchmark.csv",
-    index=False
-)
+OUT.parent.mkdir(parents=True, exist_ok=True)
+
+pd.DataFrame(results).to_csv(OUT, index=False)
+
+print("✔ Benchmark guardado en data/benchmarks/")

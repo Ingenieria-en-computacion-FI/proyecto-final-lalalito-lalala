@@ -1,20 +1,23 @@
 CC=gcc
 CFLAGS=-Wall -Wextra -std=c11 -Iinclude
 
-SRC=$(wildcard src/**/*.c src/*.c)
-TESTS=$(wildcard tests/*.c)
+SRC=$(filter-out src/main.c, $(wildcard src/*.c)) \
+    $(wildcard src/*/*.c)
+
+BIN=bin
+TARGET=$(BIN)/main.exe
 
 all:
-	mkdir -p bin
-	$(CC) $(CFLAGS) $(SRC) -o bin/main
+	if not exist bin mkdir bin
+	$(CC) $(CFLAGS) src/main.c $(SRC) -o $(TARGET)
 
 run:
-	./bin/main
+	$(TARGET) fifo 100
 
 test:
-	mkdir -p bin
-	$(CC) $(CFLAGS) $(TESTS) $(SRC) -o bin/tests
-	./bin/tests
+	if not exist bin mkdir bin
+	$(CC) $(CFLAGS) tests/*.c $(SRC) -o $(BIN)/tests.exe
+	$(BIN)/tests.exe
 
 clean:
-	rm -rf bin/*
+	del /Q bin\*

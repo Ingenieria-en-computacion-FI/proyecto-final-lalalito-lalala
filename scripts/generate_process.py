@@ -1,14 +1,22 @@
 import random
+import json
+from pathlib import Path
 
-for i in range(10):
+OUT = Path("../data/inputs/processes.json")
 
-    process = {
+processes = []
 
+for i in range(100):
+
+    processes.append({
         "pid": i,
-
         "burst": random.randint(1, 20),
-
         "memory": random.randint(10, 500)
-    }
+    })
 
-    print(process)
+OUT.parent.mkdir(parents=True, exist_ok=True)
+
+with open(OUT, "w") as f:
+    json.dump(processes, f, indent=4)
+
+print("✔ Procesos generados")

@@ -1,79 +1,23 @@
 #include <stdlib.h>
 #include "memory_manager.h"
 
-/*
-    FIRST FIT:
-    - Encuentra el primer bloque libre que pueda satisfacer el tamaño solicitado.
-    - Si encuentra un bloque adecuado:
-        * lo asigna
-        * divide el bloque si sobra espacio
-        * devuelve el PID asignado
-    - Retorna -1 si no existe un bloque válido.
-*/
+void mm_compact(MemoryManager* mm) {
 
-int first_fit(MemoryBlock* head, int size) {
-
-    if (head == NULL || size <= 0) {
-        return -1;
+    if (mm == NULL || mm->head == NULL) {
+        return;
     }
 
-    MemoryBlock* current = head;
+    MemoryBlock* current = mm->head;
+    int new_start = 0;
 
     while (current != NULL) {
 
-        if (current->free &&
-            current->size >= size) {
+        if (!current->free) {
 
-            static int pid_counter = 1;
-
-            current->pid = pid_counter++;
-            current->free = 0;
-
-            int original_size = current->size;
-
-            /*
-                Si el bloque es más grande
-                que el tamaño solicitado,
-                se divide en dos bloques.
-            */
-            if (original_size > size) {
-
-                MemoryBlock* new_block =
-                    malloc(sizeof(MemoryBlock));
-
-                if (new_block == NULL) {
-                    return current->pid;
-                }
-
-                new_block->start =
-                    current->start + size;
-
-                new_block->size =
-                    original_size - size;
-
-                new_block->free = 1;
-                new_block->pid = -1;
-
-                new_block->next =
-                    current->next;
-
-                new_block->prev =
-                    current;
-
-                if (current->next != NULL) {
-                    current->next->prev =
-                        new_block;
-                }
-
-                current->next = new_block;
-                current->size = size;
-            }
-
-            return current->pid;
+            current->start = new_start;
+            new_start += current->size;
         }
 
         current = current->next;
     }
-
-    return -1;
 }
