@@ -1,27 +1,22 @@
-//doubly_linked_list.h
+// doubly_linked_list.h
 #ifndef DOUBLY_LINKED_LIST_H
 #define DOUBLY_LINKED_LIST_H
 
 #include "memory_manager.h"
 
-// Estructura envolvente para la lista doblemente ligada
-typedef struct DoublyLinkedList DoublyLinkedList;
+typedef struct DoublyLinkedList DoublyLinkedList; // Estructura de lista doblemente ligada
 
-DoublyLinkedList* doubly_linked_list_create();
+DoublyLinkedList* doubly_linked_list_create(); // Crea lista vacía
 
-// Inserción de bloques de memoria
-void doubly_linked_list_insert_end(DoublyLinkedList* list, MemoryBlock* block);
-void doubly_linked_list_insert_front(DoublyLinkedList* list, MemoryBlock* block);
+void doubly_linked_list_insert_end(DoublyLinkedList* list, MemoryBlock* block);   // Inserta bloque al final
+void doubly_linked_list_insert_front(DoublyLinkedList* list, MemoryBlock* block); // Inserta bloque al inicio
 
-// Remoción de bloques (útil para la administración y coalescencia)
-MemoryBlock* doubly_linked_list_remove_front(DoublyLinkedList* list);
-MemoryBlock* doubly_linked_list_remove_back(DoublyLinkedList* list);
+MemoryBlock* doubly_linked_list_remove_front(DoublyLinkedList* list); // Elimina y devuelve el primer bloque
+MemoryBlock* doubly_linked_list_remove_back(DoublyLinkedList* list);   // Elimina y devuelve el último bloque
 
-// Búsqueda (por ejemplo, buscar un bloque por su dirección de inicio 'start')
-MemoryBlock* doubly_linked_list_search(DoublyLinkedList* list, int start_address);
+MemoryBlock* doubly_linked_list_search(DoublyLinkedList* list, int start_address); // Busca bloque por dirección
 
-int doubly_linked_list_is_empty(DoublyLinkedList* list);
-
-void doubly_linked_list_destroy(DoublyLinkedList* list);
+int doubly_linked_list_is_empty(DoublyLinkedList* list); // Verifica si está vacía
+void doubly_linked_list_destroy(DoublyLinkedList* list); // Libera memoria
 
 #endif
