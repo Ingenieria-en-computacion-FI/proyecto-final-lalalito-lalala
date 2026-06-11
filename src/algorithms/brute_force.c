@@ -2,29 +2,26 @@
 #include "algorithms.h"
 #include "../../include/algorithms.h"
 
-/*Recorre la lista y para elejir una memoria que o : no esté ocupada y
- no sea menor al tamañano que requiere */
-
+// Busca exhaustivamente el primer bloque libre con tamaño suficiente
 MemoryBlock* brute_force_find_hole(
     MemoryManager* mm,
     int required_size
 ) {
+    // Validación de entrada
     if (mm == NULL || required_size <= 0) {
         return NULL;
     }
 
     MemoryBlock* current = mm->head;
 
+    // Recorre todos los bloques
     while (current != NULL) {
-
-        if (current->free &&
-            current->size >= required_size) {
-
+        // Verifica si está libre y es lo suficientemente grande
+        if (current->free && current->size >= required_size) {
             return current;
         }
-
         current = current->next;
     }
 
-    return NULL;
+    return NULL; // No se encontró bloque adecuado
 }
