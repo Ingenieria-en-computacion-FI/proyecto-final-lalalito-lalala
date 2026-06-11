@@ -1,4 +1,4 @@
-printf("VERSION DEBUG NUEVA\n");
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,6 +52,7 @@ int main(int argc, char** argv) {
 
     printf("DEBUG 3\n");
     int count;
+    printf("Archivo recibido: %s\n", file);
     Process* processes = load_processes(file, &count);
 
     printf("DEBUG 4\n");

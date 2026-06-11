@@ -4,8 +4,13 @@
 
 Process* load_processes(const char* filename, int* count) {
 
-    FILE* f = fopen(filename, "r");
-    if (!f) return NULL;
+  FILE* f = fopen(filename, "r");
+
+if (!f) {
+    perror("fopen");
+    printf("Intentando abrir: %s\n", filename);
+    return NULL;
+}
 
     int capacity = 100;
     Process* p = malloc(sizeof(Process) * capacity);
