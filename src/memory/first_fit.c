@@ -46,4 +46,4 @@ int first_fit(MemoryBlock* head, int size) {
 
     return -1; // No se encontró bloque
 }
-}
+
